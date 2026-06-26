@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NEWTRACKS — Rastreamento Veicular e Monitoramento CFTV 24h em Paranavaí/PR. Proteção completa para frotas, veículos, empresas e residências.">
+<title>NEWTRACKS · Rastreamento & Monitoramento 24h</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan:        #2DD4E6;
+    --cyan-bright: #5EEEFF;
+    --cyan-deep:   #0E7A87;
+    --cyan-glow:   rgba(45,212,230,0.4);
+    --cyan-line:   rgba(45,212,230,0.2);
+    --blue:        #60A5FA;
+    --blue-bright: #93C5FD;
+    --blue-deep:   #1D4ED8;
+    --blue-glow:   rgba(96,165,250,0.4);
+    --blue-line:   rgba(96,165,250,0.2);
+    --navy:        #0A1628;
+    --navy-2:      #071120;
+    --navy-deep:   #040C18;
+    --ink:         #03070D;
+    --cloud:       #E8F0F6;
+    --mute:        rgba(232,240,246,0.55);
+    --line:        rgba(255,255,255,0.07);
+    --line-bright: rgba(255,255,255,0.14);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--cloud);overflow-x:hidden;line-height:1.5;}
+  ::selection{background:var(--cyan);color:var(--ink);}
+
+  /* ── BG ──────────────────────────────────────────────── */
+  #particles-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+  .grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:80px 80px;z-index:0;pointer-events:none;mask-image:radial-gradient(ellipse at center,black 10%,transparent 80%);}
+
+  /* ── NAV ─────────────────────────────────────────────── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;transition:all .4s;}
+  nav.scrolled{backdrop-filter:blur(24px) saturate(180%);background:rgba(3,7,13,.75);border-bottom:1px solid var(--line-bright);padding:14px 48px;}
+  .logo-mark{display:flex;align-items:center;gap:14px;font-weight:700;font-size:16px;letter-spacing:.2em;text-decoration:none;color:var(--cloud);}
+  .logo-icon{width:38px;height:38px;transition:transform .4s;}
+  .logo-mark:hover .logo-icon{transform:rotate(10deg);}
+  .nav-links{display:flex;gap:8px;list-style:none;padding:6px;background:rgba(15,26,42,.4);border:1px solid var(--line);border-radius:100px;backdrop-filter:blur(10px);}
+  .nav-links a{color:var(--mute);text-decoration:none;font-size:13px;font-weight:500;padding:10px 20px;border-radius:100px;transition:all .3s;}
+  .nav-links a:hover{color:var(--cloud);background:rgba(255,255,255,.06);}
+  .nav-cta{background:var(--cyan);color:var(--ink);padding:12px 22px;border-radius:100px;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:.05em;transition:all .3s;display:inline-flex;align-items:center;gap:8px;}
+  .nav-cta:hover{box-shadow:0 0 32px var(--cyan-glow);transform:translateY(-1px);}
+
+  /* ── HERO ────────────────────────────────────────────── */
+  .hero{min-height:100vh;padding:140px 48px 80px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;max-width:1100px;margin:0 auto;}
+  .hero-badge{display:inline-flex;align-items:center;gap:12px;padding:10px 20px;border:1px solid var(--line-bright);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cloud);margin-bottom:36px;background:rgba(255,255,255,.03);backdrop-filter:blur(10px);text-transform:uppercase;letter-spacing:.12em;}
+  .status-dot{width:8px;height:8px;background:#22C55E;border-radius:50%;box-shadow:0 0 12px #22C55E;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  h1{font-size:clamp(48px,7vw,100px);line-height:.92;font-weight:800;letter-spacing:-.04em;margin-bottom:28px;}
+  h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;background:linear-gradient(135deg,var(--cyan-bright),var(--blue-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em;}
+  .hero-desc{font-size:18px;color:var(--mute);max-width:580px;margin:0 auto 48px;line-height:1.65;}
+  .cta-pair{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .btn-cyan{background:var(--cyan);color:var(--ink);padding:18px 32px;border-radius:100px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:10px;transition:all .3s;position:relative;overflow:hidden;}
+  .btn-cyan::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan-bright),#5EEEFF);opacity:0;transition:opacity .3s;}
+  .btn-cyan:hover{box-shadow:0 10px 40px var(--cyan-glow);transform:translateY(-2px);}
+  .btn-cyan:hover::before{opacity:1;}
+  .btn-cyan>*{position:relative;z-index:1;}
+  .btn-blue{background:var(--blue);color:var(--ink);padding:18px 32px;border-radius:100px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:10px;transition:all .3s;position:relative;overflow:hidden;}
+  .btn-blue::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue-bright),#BAE6FD);opacity:0;transition:opacity .3s;}
+  .btn-blue:hover{box-shadow:0 10px 40px var(--blue-glow);transform:translateY(-2px);}
+  .btn-blue:hover::before{opacity:1;}
+  .btn-blue>*{position:relative;z-index:1;}
+  .scroll-hint{margin-top:72px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--mute);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;animation:floatHint 3s ease-in-out infinite;}
+  @keyframes floatHint{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(6px);opacity:.8;}}
+
+  /* ── SERVIÇOS ─────────────────────────────────────────── */
+  section{padding:120px 48px;position:relative;z-index:2;}
+  .section-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);margin-bottom:16px;}
+  .section-tag.cyan{color:var(--cyan);}
+  .section-tag.blue{color:var(--blue);}
+  h2{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:16px;}
+  h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;}
+  .section-desc{font-size:17px;color:var(--mute);max-width:540px;margin-bottom:64px;}
+
+  .services-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1200px;margin:0 auto;}
+  .service-card{background:rgba(10,22,40,.5);border:1px solid var(--line);border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:0;transition:all .4s;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:inherit;}
+  .service-card::before{content:'';position:absolute;inset:0;border-radius:24px;opacity:0;transition:opacity .4s;}
+  .service-card.cyan-card::before{background:radial-gradient(ellipse at 30% 20%,rgba(45,212,230,.08),transparent 60%);}
+  .service-card.blue-card::before{background:radial-gradient(ellipse at 30% 20%,rgba(96,165,250,.08),transparent 60%);}
+  .service-card.cyan-card:hover{border-color:var(--cyan-line);box-shadow:0 0 60px rgba(45,212,230,.12),0 24px 60px rgba(0,0,0,.4);transform:translateY(-6px);}
+  .service-card.blue-card:hover{border-color:var(--blue-line);box-shadow:0 0 60px rgba(96,165,250,.12),0 24px 60px rgba(0,0,0,.4);transform:translateY(-6px);}
+  .service-card:hover::before{opacity:1;}
+  .card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;position:relative;z-index:1;}
+  .card-icon.cyan{background:rgba(45,212,230,.1);border:1px solid rgba(45,212,230,.2);}
+  .card-icon.blue{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);}
+  .card-num{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--mute);margin-bottom:12px;position:relative;z-index:1;}
+  .card-title{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;position:relative;z-index:1;}
+  .card-subtitle{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--mute);margin-bottom:28px;position:relative;z-index:1;}
+  .card-bullets{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:40px;position:relative;z-index:1;}
+  .card-bullets li{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mute);}
+  .card-bullets li::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .cyan-card .card-bullets li::before{background:var(--cyan);}
+  .blue-card .card-bullets li::before{background:var(--blue);}
+  .card-cta{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:14px;letter-spacing:.04em;margin-top:auto;position:relative;z-index:1;transition:gap .3s;}
+  .cyan-card .card-cta{color:var(--cyan);}
+  .blue-card .card-cta{color:var(--blue);}
+  .service-card:hover .card-cta{gap:16px;}
+
+  /* ── STATS BAND ───────────────────────────────────────── */
+  .stats-band{background:rgba(10,22,40,.6);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:48px;backdrop-filter:blur(20px);}
+  .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1200px;margin:0 auto;text-align:center;}
+  .stat-val{font-family:'Instrument Serif',serif;font-size:52px;line-height:1;margin-bottom:8px;}
+  .stat-val.cyan{color:var(--cyan);}
+  .stat-val.blue{color:var(--blue);}
+  .stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
+
+  /* ── SOBRE ────────────────────────────────────────────── */
+  .about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto;}
+  .about-text p{font-size:17px;color:var(--mute);line-height:1.75;margin-bottom:20px;}
+  .about-text p:last-child{margin-bottom:0;}
+  .about-text strong{color:var(--cloud);}
+  .parceiros-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .parceiro-card{background:rgba(10,22,40,.6);border:1px solid var(--line);border-radius:16px;padding:24px 20px;display:flex;align-items:center;justify-content:center;transition:border-color .3s;}
+  .parceiro-card:hover{border-color:var(--line-bright);}
+  .parceiro-name{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--mute);}
+
+  /* ── CONTATO ──────────────────────────────────────────── */
+  .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto 40px;}
+  .contact-card{background:rgba(10,22,40,.5);border:1px solid var(--line);border-radius:18px;padding:28px 24px;display:flex;flex-direction:column;gap:10px;}
+  .contact-card-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);}
+  .contact-card-val{font-size:16px;font-weight:500;color:var(--cloud);}
+  .contact-card-val a{color:inherit;text-decoration:none;}
+  .contact-card-val a:hover{color:var(--cyan);}
+  .btn-maps{display:inline-flex;align-items:center;gap:10px;margin:0 auto;padding:14px 28px;background:rgba(10,22,40,.5);border:1px solid var(--line-bright);border-radius:100px;color:var(--cyan);text-decoration:none;font-size:13px;font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;transition:all .3s;backdrop-filter:blur(10px);}
+  .btn-maps:hover{background:rgba(45,212,230,.08);border-color:var(--cyan);box-shadow:0 6px 24px var(--cyan-glow);}
+  .contact-center{text-align:center;}
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  footer{padding:60px 48px 40px;border-top:1px solid var(--line);position:relative;z-index:2;}
+  .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:48px;}
+  .footer-brand p{font-size:14px;color:var(--mute);margin-top:16px;max-width:300px;line-height:1.7;}
+  footer h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);margin-bottom:20px;}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  footer a{color:var(--mute);text-decoration:none;font-size:14px;transition:color .3s;}
+  footer a:hover{color:var(--cloud);}
+  .footer-bottom{max-width:1200px;margin:0 auto;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .footer-copy{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);letter-spacing:.05em;}
+
+  /* ── REVEAL ───────────────────────────────────────────── */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ── RESPONSIVE ───────────────────────────────────────── */
+  @media(max-width:1024px){
+    nav{padding:16px 28px;}
+    nav.scrolled{padding:12px 28px;}
+    .nav-links{display:none;}
+    .nav-cta{display:none;}
+    .hamburger{display:flex;}
+    section{padding:80px 28px;}
+    .services-grid{grid-template-columns:1fr;}
+    .stats-inner{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr;gap:48px;}
+    .contact-grid{grid-template-columns:1fr;}
+    .footer-inner{grid-template-columns:1fr;gap:40px;}
+    .footer-bottom{flex-direction:column;gap:12px;text-align:center;}
+  }
+  @media(max-width:768px){
+    h1{font-size:clamp(38px,10vw,64px);}
+    .hero{padding:120px 24px 60px;}
+    .cta-pair{flex-direction:column;align-items:center;}
+    .btn-cyan,.btn-blue{width:100%;justify-content:center;}
+    .stats-inner{grid-template-columns:1fr 1fr;gap:24px;}
+    .stat-val{font-size:40px;}
+    .parceiros-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:480px){
+    nav{padding:12px 16px;}
+    nav.scrolled{padding:10px 16px;}
+    .hero{padding:96px 16px 40px;}
+    section{padding:60px 16px;}
+    h1{font-size:clamp(32px,9vw,48px);}
+    .hero-badge{font-size:9px;padding:7px 12px;gap:8px;}
+    .hero-desc{font-size:15px;}
+    .stats-band{padding:32px 16px;}
+    .stat-val{font-size:32px;}
+    .stat-label{font-size:9px;}
+    .service-card{padding:32px 20px;}
+    .card-title{font-size:22px;}
+    h2{font-size:clamp(26px,8vw,40px);}
+    .contact-card{padding:20px 16px;}
+    footer{padding:48px 16px 28px;}
+    .footer-copy{font-size:10px;}
+    .scroll-hint{display:none;}
+  }
+
+  /* ── HAMBURGER ─────────────────────────────────────── */
+  .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:9px 10px;border:1px solid var(--line-bright);border-radius:8px;background:rgba(15,26,42,.5);backdrop-filter:blur(10px);}
+  .hamburger span{display:block;width:20px;height:2px;background:var(--cloud);border-radius:2px;transition:all .3s;}
+  .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+  .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(3,7,13,.97);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:36px;backdrop-filter:blur(30px);}
+  .mobile-menu.open{display:flex;}
+  .mobile-close{position:absolute;top:20px;right:20px;background:none;border:1px solid var(--line-bright);color:var(--cloud);font-size:18px;cursor:pointer;padding:8px 12px;border-radius:8px;line-height:1;}
+  .mobile-link{font-size:clamp(28px,8vw,44px);font-weight:700;color:var(--cloud);text-decoration:none;letter-spacing:-.02em;transition:color .3s;}
+  .mobile-link:hover{color:var(--cyan);}
+  .mobile-wa{display:inline-flex;align-items:center;gap:10px;background:var(--cyan);color:var(--ink);padding:16px 32px;border-radius:100px;font-size:16px;font-weight:700;letter-spacing:.04em;margin-top:8px;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="logo-mark">
+    <svg class="logo-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="38" height="38" rx="10" fill="rgba(45,212,230,0.1)"/>
+      <path d="M19 6L8 11.5V20C8 26 13 31.2 19 33C25 31.2 30 26 30 20V11.5L19 6Z" stroke="#2DD4E6" stroke-width="1.8" stroke-linejoin="round"/>
+      <circle cx="19" cy="20" r="4" fill="#2DD4E6" opacity=".9"/>
+      <path d="M19 16V12M19 28V24M23 20H27M11 20H15" stroke="#2DD4E6" stroke-width="1.4" stroke-linecap="round" opacity=".4"/>
+    </svg>
+    NEWTRACKS
+  </a>
+  <ul class="nav-links">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5544991743336?text=Ol%C3%A1%2C+gostaria+de+mais+informa%C3%A7%C3%B5es+sobre+os+servi%C3%A7os+da+NEWTRACKS." target="_blank" rel="noopener" class="nav-cta">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.557 4.122 1.528 5.856L.057 23.5l5.797-1.47A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.694-.504-5.234-1.384l-.375-.223-3.44.872.91-3.338-.245-.389A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Falar no WhatsApp
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <a href="#servicos" class="mobile-link">Serviços</a>
+  <a href="#sobre" class="mobile-link">Sobre</a>
+  <a href="#contato" class="mobile-link">Contato</a>
+  <a href="https://wa.me/5544991743336?text=Ol%C3%A1%2C+gostaria+de+mais+informa%C3%A7%C3%B5es+sobre+os+servi%C3%A7os+da+NEWTRACKS." target="_blank" rel="noopener" class="mobile-wa">WhatsApp</a>
+</div>
+
+<!-- HERO -->
+<div class="hero" style="position:relative;z-index:2;">
+  <div class="hero-badge reveal">
+    <span class="status-dot"></span>
+    PARANAVAÍ · PR · PROTEÇÃO 24/7
+  </div>
+  <h1 class="reveal">Segurança e controle<br>para quem <em>não para.</em></h1>
+  <p class="hero-desc reveal">Empresa especializada em rastreamento veicular e monitoramento CFTV 24h em Paranavaí e região. Tecnologia de ponta para frotas, veículos, empresas e residências.</p>
+  <div class="cta-pair reveal">
+    <a href="./rastreamento/" class="btn-cyan">
+      <span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 8 13 8 13s8-7.75 8-13c0-4.42-3.58-8-8-8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </span>
+      <span>Rastreamento Veicular</span>
+      <span>→</span>
+    </a>
+    <a href="./monitoramento/" class="btn-blue">
+      <span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="11" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M7 18l2-2M17 18l-2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </span>
+      <span>Monitoramento CFTV</span>
+      <span>→</span>
+    </a>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><rect x="2" y="2" width="12" height="16" rx="6" stroke="currentColor" stroke-width="1.5" opacity=".4"/><circle cx="8" cy="6" r="2" fill="currentColor" opacity=".6"/></svg>
+    ROLE PARA VER MAIS
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag reveal">Nossos Serviços</div>
+    <h2 class="reveal">Dois sistemas.<br>Uma <em>proteção completa.</em></h2>
+    <p class="section-desc reveal">Escolha o serviço certo para sua necessidade, ou combine os dois para proteção total.</p>
+    <div class="services-grid">
+
+      <!-- CARD RASTREAMENTO -->
+      <a href="./rastreamento/" class="service-card cyan-card reveal">
+        <div class="card-icon cyan">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="4" stroke="#2DD4E6" stroke-width="2"/><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 8 13 8 13s8-7.75 8-13c0-4.42-3.58-8-8-8z" stroke="#2DD4E6" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="card-num">01 — RASTREAMENTO</div>
+        <div class="card-title">Rastreamento Veicular</div>
+        <div class="card-subtitle">GPS 24/7 · BLOQUEIO REMOTO · APP PRÓPRIO</div>
+        <ul class="card-bullets">
+          <li>GPS via satélite em tempo real</li>
+          <li>Chip M2M multioperadora (Claro · TIM · Vivo)</li>
+          <li>Histórico completo de 365 dias</li>
+          <li>Cerca Virtual com alertas instantâneos</li>
+        </ul>
+        <span class="card-cta">Conheça o Rastreamento <span>→</span></span>
+      </a>
+
+      <!-- CARD MONITORAMENTO -->
+      <a href="./monitoramento/" class="service-card blue-card reveal">
+        <div class="card-icon blue">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="14" rx="2" stroke="#60A5FA" stroke-width="2"/><circle cx="12" cy="11" r="3" stroke="#60A5FA" stroke-width="1.5"/><path d="M7 18l2-2M17 18l-2-2" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-num">02 — MONITORAMENTO</div>
+        <div class="card-title">Monitoramento CFTV</div>
+        <div class="card-subtitle">CÂMERAS 4K · CENTRAL 24H · ALARMES</div>
+        <ul class="card-bullets">
+          <li>Câmeras IP 4K com visão noturna</li>
+          <li>Central de monitoramento 24 horas</li>
+          <li>Portões elétricos e controle de acesso</li>
+          <li>Cercas elétricas e sensores de alarme</li>
+        </ul>
+        <span class="card-cta">Conheça o Monitoramento <span>→</span></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="reveal">
+      <div class="stat-val cyan">24/7</div>
+      <div class="stat-label">Central Ativa</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-val blue">99.9%</div>
+      <div class="stat-label">Uptime Garantido</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-val cyan">&lt;3s</div>
+      <div class="stat-label">Tempo de Resposta</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-val blue">PR</div>
+      <div class="stat-label">Paranavaí e Região</div>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-tag reveal">Sobre a NEWTRACKS</div>
+      <h2 class="reveal">Tecnologia local,<br><em>proteção real.</em></h2>
+      <p class="reveal">Somos uma empresa paranavaíense especializada em soluções de segurança eletrônica. Atendemos frotas corporativas, veículos particulares, máquinas agrícolas, residências, comércio e fazendas.</p>
+      <p class="reveal">Nossa equipe técnica realiza instalação, configuração e manutenção com agilidade — você liga, a gente resolve. <strong>Sem burocracia, sem intermediários.</strong></p>
+      <p class="reveal">Com equipamentos de marcas líderes de mercado e suporte próprio, entregamos rastreamento e monitoramento de verdade para quem precisa de segurança sem complicação.</p>
+    </div>
+    <div>
+      <div class="section-tag reveal" style="margin-bottom:24px;">Marcas que trabalhamos</div>
+      <div class="parceiros-grid reveal">
+        <div class="parceiro-card"><span class="parceiro-name">HIKVISION</span></div>
+        <div class="parceiro-card"><span class="parceiro-name">INTELBRAS</span></div>
+        <div class="parceiro-card"><span class="parceiro-name">POSITRON</span></div>
+        <div class="parceiro-card"><span class="parceiro-name">TELTONIKA</span></div>
+        <div class="parceiro-card"><span class="parceiro-name">DAHUA</span></div>
+        <div class="parceiro-card"><span class="parceiro-name">JFL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato" style="padding-bottom:100px;">
+  <div style="max-width:1200px;margin:0 auto;text-align:center;">
+    <div class="section-tag reveal" style="justify-content:center;display:flex;">Contato</div>
+    <h2 class="reveal">Fale com a <em>nossa equipe.</em></h2>
+    <p class="section-desc reveal" style="margin:0 auto 48px;">Atendemos de segunda a sexta das 08h às 18h. Para emergências, nossa central funciona 24h.</p>
+    <div class="contact-grid reveal">
+      <div class="contact-card">
+        <div class="contact-card-label">Endereço</div>
+        <div class="contact-card-val">Av. Parigot de Souza, 3660<br>Jardim Ibirapuera · Paranavaí/PR</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-label">WhatsApp / Telefone</div>
+        <div class="contact-card-val"><a href="https://wa.me/5544991743336" target="_blank">(44) 99174-3336</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-label">Horário Comercial</div>
+        <div class="contact-card-val">Seg–Sex · 08:00–18:00<br><span style="color:var(--cyan);font-size:13px;">Central 24h</span></div>
+      </div>
+    </div>
+    <div class="contact-center reveal">
+      <a href="https://www.google.com/maps/dir/?api=1&destination=-23.0745756,-52.4430852" target="_blank" rel="noopener" class="btn-maps">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 8 13 8 13s8-7.75 8-13c0-4.42-3.58-8-8-8z" stroke="currentColor" stroke-width="2"/></svg>
+        Como chegar
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo-mark" style="margin-bottom:0;">
+        <svg class="logo-icon" viewBox="0 0 38 38" fill="none"><rect width="38" height="38" rx="10" fill="rgba(45,212,230,0.08)"/><path d="M19 6L8 11.5V20C8 26 13 31.2 19 33C25 31.2 30 26 30 20V11.5L19 6Z" stroke="#2DD4E6" stroke-width="1.8" stroke-linejoin="round"/><circle cx="19" cy="20" r="4" fill="#2DD4E6" opacity=".9"/></svg>
+        NEWTRACKS
+      </a>
+      <p>Rastreamento veicular e monitoramento CFTV 24h em Paranavaí/PR. Segurança e controle para quem não para.</p>
+    </div>
+    <div>
+      <h5>Serviços</h5>
+      <ul>
+        <li><a href="./rastreamento/">Rastreamento Veicular</a></li>
+        <li><a href="./monitoramento/">Monitoramento CFTV</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contato</h5>
+      <ul>
+        <li><a href="https://wa.me/5544991743336" target="_blank">(44) 99174-3336</a></li>
+        <li><a href="https://www.google.com/maps/dir/?api=1&destination=-23.0745756,-52.4430852" target="_blank">Como chegar</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 NEWTRACKS · PARANAVAÍ/PR</span>
+    <span class="footer-copy" style="opacity:.4;">RASTREAMENTO · MONITORAMENTO · 24H</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+// ── PARTÍCULAS DUAL-CLUSTER ─────────────────────────────
+const cv=document.getElementById('particles-canvas');
+const ctx=cv.getContext('2d');
+let W,H,pts=[];
+function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;initPts();}
+function initPts(){
+  pts=[];
+  for(let i=0;i<70;i++){
+    const isCyan=Math.random()<.5;
+    pts.push({
+      x:isCyan?Math.random()*W*.55:Math.random()*W*.55+W*.45,
+      y:Math.random()*H,
+      vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+      r:Math.random()*1.5+1,
+      cyan:isCyan
+    });
+  }
+}
+function drawPts(){
+  ctx.clearRect(0,0,W,H);
+  const cx2=isCyan=>isCyan?'rgba(45,212,230,':'rgba(96,165,250,';
+  for(let i=0;i<pts.length;i++){
+    const p=pts[i];
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=cx2(p.cyan)+'0.7)';ctx.fill();
+    for(let j=i+1;j<pts.length;j++){
+      const q=pts[j];
+      const d=Math.hypot(p.x-q.x,p.y-q.y);
+      if(d<130){
+        const a=(1-d/130)*.25;
+        const col=p.cyan===q.cyan?cx2(p.cyan)+a+')':'rgba(180,200,230,'+a*.4+')';
+        ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+        ctx.strokeStyle=col;ctx.lineWidth=.8;ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawPts);
+}
+window.addEventListener('resize',resize);resize();drawPts();
+
+// ── NAV SCROLL ──────────────────────────────────────────
+const nav=document.getElementById('main-nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60);});
+
+// ── HAMBURGER ───────────────────────────────────────────
+(function(){const hbg=document.getElementById('hamburger'),mm=document.getElementById('mobile-menu'),mc=document.getElementById('mobile-close');
+function open(){hbg.classList.add('open');mm.classList.add('open');document.body.style.overflow='hidden';}
+function close(){hbg.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';}
+hbg.addEventListener('click',open);mc.addEventListener('click',close);
+mm.querySelectorAll('.mobile-link,.mobile-wa').forEach(a=>a.addEventListener('click',close));})();
+
+// ── GSAP REVEAL ─────────────────────────────────────────
+if(typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined'){
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.reveal').forEach((el,i)=>{
+    const delay=el.closest('.services-grid')?i*.15:.1;
+    gsap.fromTo(el,{opacity:0,y:40},{opacity:1,y:0,duration:.9,delay,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},
+      onComplete:()=>el.classList.add('in')});
+  });
+  // hero reveal sem scrolltrigger
+  gsap.utils.toArray('.hero .reveal').forEach((el,i)=>{
+    gsap.fromTo(el,{opacity:0,y:30},{opacity:1,y:0,duration:.9,delay:i*.18+.3,ease:'power3.out',
+      onComplete:()=>el.classList.add('in')});
+  });
+}
+</script>
+</body>
+</html>
