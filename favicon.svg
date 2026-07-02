@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-18 4 236 236">
+  <defs>
+    <clipPath id="lh"><rect x="-18" y="4" width="118" height="236"/></clipPath>
+    <clipPath id="ob"><rect x="-18" y="100" width="236" height="140"/></clipPath>
+    <clipPath id="ot"><rect x="-18" y="4" width="236" height="96"/></clipPath>
+  </defs>
+
+  <!-- Arco orbital — parte traseira (atrás do pin) -->
+  <ellipse cx="100" cy="96" rx="112" ry="22"
+           fill="none" stroke="white" stroke-width="14"
+           transform="rotate(15,100,96)"
+           clip-path="url(#ot)"/>
+  <ellipse cx="100" cy="96" rx="112" ry="22"
+           fill="none" stroke="#141c28" stroke-width="10"
+           transform="rotate(15,100,96)"
+           clip-path="url(#ot)"/>
+
+  <!-- Pin base escuro -->
+  <path d="M100,218 C58,178 28,140 28,90 A72,72 0 1,1 172,90 C172,140 142,178 100,218Z" fill="#0f1c27"/>
+  <!-- Contorno branco destacado -->
+  <path d="M100,218 C58,178 28,140 28,90 A72,72 0 1,1 172,90 C172,140 142,178 100,218Z" fill="none" stroke="white" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Metade esquerda azul escuro -->
+  <path d="M100,218 C58,178 28,140 28,90 A72,72 0 1,1 172,90 C172,140 142,178 100,218Z" fill="#1a6482" clip-path="url(#lh)"/>
+  <!-- Metade esquerda cyan (sobre o azul) -->
+  <path d="M100,218 C58,178 28,140 28,90 A72,72 0 1,1 172,90 C172,140 142,178 100,218Z" fill="#00a5c6" clip-path="url(#lh)" opacity="0.9"/>
+
+  <!-- Anel branco externo -->
+  <circle cx="100" cy="90" r="53" fill="white"/>
+  <!-- Fundo escuro interno -->
+  <circle cx="100" cy="90" r="48" fill="#0d1929"/>
+  <!-- Anel iris escuro -->
+  <circle cx="100" cy="90" r="35" fill="none" stroke="#0d1929" stroke-width="13"/>
+  <!-- Ponto cyan (pupila) -->
+  <circle cx="100" cy="90" r="20" fill="#00a5c6"/>
+  <!-- Destaque branco -->
+  <circle cx="117" cy="73" r="14" fill="white"/>
+
+  <!-- Arco orbital — parte frontal (na frente do pin) -->
+  <ellipse cx="100" cy="96" rx="112" ry="22"
+           fill="none" stroke="white" stroke-width="14"
+           transform="rotate(15,100,96)"
+           clip-path="url(#ob)"/>
+  <ellipse cx="100" cy="96" rx="112" ry="22"
+           fill="none" stroke="#141c28" stroke-width="10"
+           transform="rotate(15,100,96)"
+           clip-path="url(#ob)"/>
+</svg>
